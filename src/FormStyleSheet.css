@@ -1,0 +1,39 @@
+.container{
+    text-align: center;
+    padding: 20px;
+    background-color: gray;
+}
+
+.inputFields{
+    height: 30px;
+    width: 250px;
+}
+
+.inputFields:hover{
+    background-color: rgba(245, 245, 245, 0.608);
+}
+
+.buttonFields{
+    height: 35px;
+    width: 40px;
+}
+
+.buttonFields:hover{
+    background-color: white;
+}
+
+#submitButton{
+    height: 40px;
+    width: 100px;
+}
+
+#submitButton:hover{
+    background-color: white;
+}
+
+.submittedData{
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: 600;
+}
