@@ -1,0 +1,143 @@
+.updateContainer {
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    height: 45vh;
+}
+
+.editImagePopup{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 300px;
+    height: 200px;
+    position: fixed;
+    top: 25%;
+    left: 40%;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    border: 2px solid #4aa5c7;
+    border-radius: 5%;
+    background-color: #ffffff;
+}
+
+.popupContent{
+    /* text-align: center; */
+    padding: 10% 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #4aa5c7;
+}
+
+.editImagePopup > input{
+    padding: 0 34%;
+}
+
+.imageButtons{
+    display: flex;
+    gap: 20px;
+    width: 100px;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 32%;
+}
+
+.imageButtons > button{
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+} 
+
+.imageSaveButton{
+    color: white;
+    background-color: #4aa5c7;
+}
+
+.imageSaveButton:hover{
+    background-color: #3ec0ef;
+}
+
+.imageCancelButton{
+    color: red;
+    background-color: white;
+}
+
+.imageCancelButton:hover{
+    background-color: rgba(218, 213, 213, 0.575);
+}
+
+.updateMain{
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.textArea{
+    display: flex;
+    color: #74777a;
+    gap: 10px;
+    height: 250px;
+    border-radius: 5px;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.textArea > textarea{
+    border: none;
+    outline: none;
+    resize: none;
+    color: #74777a;
+    background-color: #ffffff;
+    height: inherit;
+}
+
+footer{
+    padding:20px 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 99%;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+}
+
+.deleteFooter{
+    cursor: pointer;
+    font-size: 20px;
+    background-color: white;
+    border: none;
+    color: red;
+}
+
+.footerRight{
+    padding-right: 20px;
+    display: flex;
+    gap: 40px;
+}
+
+.saveFooter{
+    cursor: pointer;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    padding:10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4aa5c7;
+}
+
+.cancelFooter{
+    cursor: pointer;
+    font-size: 20px;
+    background-color: white;
+    border: none;
+    color: #4aa5c7;
+}
