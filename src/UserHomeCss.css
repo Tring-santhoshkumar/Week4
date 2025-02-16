@@ -1,7 +1,12 @@
 .userHomeMain{
     width:unset;
     background-color: #f3f4f5db;
-    padding: 5.5%;
+    padding-top: 2%;
+    margin-left: 10px;
+}
+.userHomeMain{
+    color: #4aa5c7;
+    font-size: medium;
 }
 
 .userHomeContent{
@@ -24,6 +29,7 @@
 }
 
 .userHomeMainContent{
+    cursor: pointer;
     height: 50vh;
     border: 2px solid white;
     background-color: white;
