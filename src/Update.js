@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import defaultImage from './assets/defaultImage.png'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { UserProfile } from "./UserProfile";
+// import TiptapEditor from "./TiptapEditor";
 
 const Update = () => {
 
@@ -11,6 +13,16 @@ const Update = () => {
     const [tempImage, setTempImage] = useState(null);                   //Storing image in a temporary state
 
     const [image, setImage] = useState(null);                           //Storing image
+
+    const {addPersona} = useContext(UserProfile);
+
+    const [personaData, setPersonaData] = useState({
+        quote : "", description : "", attitude : "", challenges : "", jobs : "", activities : "" , image : image || defaultImage
+    })
+
+    const handleChange = (e) => {
+        setPersonaData({...personaData, [e.target.name] : e.target.value});
+    }
 
     const setEditImageFunction = () => {                                //Enabling the popup
         setEditImage(true);
@@ -23,6 +35,7 @@ const Update = () => {
 
     const saveImage = () => {                                           //Storing image from the temporary state
         if(tempImage){
+            setPersonaData((prev) => ({...prev, image : tempImage}));
             setImage(tempImage);
             setTempImage(null);
         }
@@ -42,13 +55,18 @@ const Update = () => {
         )
     }
 
+    const updatePersona = () => {
+        addPersona(personaData);
+        userHomeNavigation();
+    }
+
     const userHomeNavigation = () => {                                  //Navigates to userHome Page
-        navigate('/UserHome');
+        navigate("/userHome");
     }
 
   return (
     <div>
-         <div className="updateContainer" style={{backgroundImage: `url(${image ? image : defaultImage})`}}>  {/*Setting the image insertion in background*/}
+         <div className="updateContainer" style={{backgroundImage: `url(${personaData.image ? image : defaultImage})`}}>  {/*Setting the image insertion in background*/}
             <div className='Content'>
                 <p className='title'>Persona Name</p>
                 <p className='personaName'>Sample</p>
@@ -60,28 +78,28 @@ const Update = () => {
         </div>
         <div className="updateMain">
             <div className="textArea">                      {/*Textarea fields */}
-                <label htmlFor="textAreaInput1">Notable Quote</label>
-                <textarea id="textAreaInput1" placeholder="Enter a quote that identifies the persona."/>
+                <label htmlFor="quote">Notable Quote</label>
+                <textarea id="quote" name="quote" onChange={handleChange} placeholder="Enter a quote that identifies the persona."/>
             </div>
             <div className="textArea">
-                <label htmlFor="textAreaInput2">Description</label>
-                <textarea id="textAreaInput2" placeholder="Enter a general description/bio about the persona."/>
+                <label htmlFor="description">Description</label>
+                <textarea id="description" name="description" onChange={handleChange} placeholder="Enter a general description/bio about the persona."/>
             </div>
             <div className="textArea">
-                <label htmlFor="textAreaInput3">Attitudes / Motivations</label>
-                <textarea id="textAreaInput3" placeholder="What drives and incentives the persona to reach desired goals?What mindset does the persona have?"/>
+                <label htmlFor="attitude">Attitudes / Motivations</label>
+                <textarea id="attitude" name="attitude" onChange={handleChange} placeholder="What drives and incentives the persona to reach desired goals?What mindset does the persona have?"/>
             </div>
             <div className="textArea">
-                <label htmlFor="textAreaInput4">Notable Quote</label>
-                <textarea id="textAreaInput4" placeholder="Enter a quote that identifies the persona."/>
+                <label htmlFor="challenges">Pain Points</label>
+                <textarea id="challenges" name="challenges" onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?"/>
             </div>
             <div className="textArea">
-                <label htmlFor="textAreaInput5">Notable Quote</label>
-                <textarea id="textAreaInput5" placeholder="Enter a quote that identifies the persona."/>
+                <label htmlFor="jobs">Jobs / Needs</label>
+                <textarea id="jobs" name="jobs" onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job."/>
             </div>
             <div className="textArea">
-                <label htmlFor="textAreaInput6">Notable Quote</label>
-                <textarea id="textAreaInput6" placeholder="Enter a quote that identifies the persona."/>
+                <label htmlFor="activities">Activities</label>
+                <textarea id="activities" name="activities" onChange={handleChange} placeholder="What does the persona do in their free time?"/>
             </div>
         </div>
         <footer>
@@ -90,7 +108,7 @@ const Update = () => {
             </div>
             <div className="footerRight">
                 <button className="cancelFooter" onClick={userHomeNavigation}>Cancel</button>
-                <button className="saveFooter" onClick={userHomeNavigation}>Update Persona</button>
+                <button className="saveFooter" onClick={updatePersona}>Update Persona</button>
             </div>
         </footer>
     </div>
