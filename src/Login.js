@@ -84,6 +84,7 @@ const Login = () => {
                 <input type='password' name='password' placeholder='Enter password' value={inputData.password} onChange={addInput} title='Ex : Admin@123'/>
                 {validation.password && <span>{validation.password}</span>}
                 <button type='submit' onClick={validate}>Submit</button>
+                <p>New User?</p><span style={{color:"#4aa5c7",cursor:'pointer'}} onClick={() => navigate('/register')}>Register</span>
             </form>
         </div>
     </div>
