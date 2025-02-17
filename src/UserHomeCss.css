@@ -46,10 +46,30 @@
 }
 
 .userHomeCards{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 350px;
     height: 300px;
     flex-shrink: 0;
-    background-color: #f3f4f5;
+    background-color: #e0e1e3;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
+}
+
+.userHomeCards > img{
+    width: 80%;
+    border-radius: 5px;
+    height: 60%;
+}
+
+.addingCards{
+    font-size: 42px;
+    text-align: center;
+    border-radius: 50%;
+    color: #8a8a8e;
+    border: 2px solid #c4c5c6;
+    width: 60px;
+    height: 64px;
 }
