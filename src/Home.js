@@ -12,7 +12,7 @@ const Home = () => {
     const loginNavigation = () => {                          //Navigation to Login page
       navigate('/login');
     }
-
+    
     return (
       <div className="App">
         <header className="App-header">                     {/*Header */}
