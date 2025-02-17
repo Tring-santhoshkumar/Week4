@@ -80,6 +80,7 @@ const Register = () => {
             <input type='password' name='confirmPassword' placeholder='Confirm password' value={inputData.confirmPassword}  onChange={addInput} required /*pattern='(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{5-10}'*//>
             {validation.confirmPassword && <span>{validation.confirmPassword}</span>}
             <button type='submit'>Register</button>
+            <p>Have an account?</p><span style={{color:"#4aa5c7",cursor:'pointer'}} onClick={() => navigate('/login')}>Login</span>
         </form>
         </div>
     </div>
