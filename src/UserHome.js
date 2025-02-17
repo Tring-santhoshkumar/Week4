@@ -37,7 +37,7 @@ const UserHome = () => {
             </header>
         </div>
         <div className='userHomeMain'>
-            <h4>Welcome {currentUserData?.name}!</h4>
+            <h2>Welcome to the User Persona!</h2>
             <div className='userHomeContent'>                     {/*Add Persona fields */}
                 <button onClick={updateNavigation}>+ Add Persona</button>
                 <div className='userHomeMainContent'>
@@ -46,6 +46,7 @@ const UserHome = () => {
                             <div key={index} onClick={()=>SavePersonaIndex(index)} className='userHomeCards'>
                                 <img src={persona.image}></img>
                                 <h2 style={{color:"#4aa5c7"}}>{persona.name}</h2>
+                                <p style={{color:"black"}}>{persona.quote.slice(0,30)}</p>
                             </div>
                         ))
                     ) : (
