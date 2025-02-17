@@ -19,7 +19,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/userHome' element={<UserHome />} />
-        <Route path='/update' element={<Update />} /> */
+        <Route path='/Update/:status' element={<Update />} /> */
       </Routes>
     </BrowserRouter>
    </UserProvider>
