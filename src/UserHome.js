@@ -2,35 +2,26 @@ import React, { useContext, useState , useEffect} from 'react'
 import logo from './assets/tringapps-copy-2.svg';
 import { UserProfile } from './UserProfile';
 // import image from './Update';
-// import defaultImage from './Update'
+import defaultImage from './Update'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const UserHome = () => {
 
     const navigate = useNavigate();                 //Navigates
 
-    const HomeNavigation = () =>  {                 //Navigates to Home Page
-        navigate('/');
-    }
-
     const updateNavigation = () => {                //Navigates to Update Page
-        navigate('/Update');
+        navigate('/Update/create');
     }
 
-    const {currentUserData, personas} = useContext(UserProfile);
+    const {currentUserData, personas, SetEditPersonaKey} = useContext(UserProfile);
 
-    const [userPersona, setUserPersona] = useState([]);
 
-    useEffect(() => {
-        const storedPersonas = JSON.parse(localStorage.getItem("personas")) || [];
-        console.log("Loaded personas:", storedPersonas); 
-        setUserPersona(storedPersonas);
-    }, []);
-
+    const SavePersonaIndex=(index)=>{
+        SetEditPersonaKey(index);           
+        navigate('/Update/edit');
+    }
 
     const logoutFunction = () => {
-        localStorage.removeItem("personas");
-        localStorage.removeItem("currentUserData");
         navigate("/");
       };
 
@@ -50,14 +41,17 @@ const UserHome = () => {
             <div className='userHomeContent'>                     {/*Add Persona fields */}
                 <button onClick={updateNavigation}>+ Add Persona</button>
                 <div className='userHomeMainContent'>
-                    {userPersona.length > 0 ? (
-                        userPersona.map((persona, index) => (
-                            <div key={index} className='userHomeCards' style={{backgroundImage: `url(${persona.image})`, backgroundSize:'cover'}}>
-                                <h3 style={{color:'white'}}>{persona.name}</h3>
+                    {personas.length > 0 ? (
+                        personas.map((persona, index) => (
+                            <div key={index} onClick={()=>SavePersonaIndex(index)} className='userHomeCards'>
+                                <img src={persona.image}></img>
+                                <h2 style={{color:"#4aa5c7"}}>{persona.name}</h2>
                             </div>
                         ))
                     ) : (
-                        <p>No persona added</p>
+                        <div className='userHomeCards' onClick={() => updateNavigation()} style={{backgroundImage: `url(${defaultImage})`, backgroundSize:'cover'}}>
+                            <div className='addingCards'>+</div>
+                        </div>
                     )}
                 </div>
             </div>
