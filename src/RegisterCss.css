@@ -56,7 +56,9 @@
 }
 
 span{
-    color: #4aa5c7;
+    color: red;
+    background-color: white;
+    border-radius: 5px;
     font-weight: bold;
 }
   
