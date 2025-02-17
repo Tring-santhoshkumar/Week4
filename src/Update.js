@@ -48,14 +48,11 @@ const Update = () => {
 
     const insertImage = (e) => {                                        //Saving the image in the state by URL.createObjectURL
         const imageFile = e.target.files[0];
-        if(!imageFile){
-            alert("No file selected.");
-            return;
-        }
-        if(typeof URL.createObjectURL === "function"){
+        const imageValidation = validateImage(imageFile);
+        if(imageValidation && typeof URL.createObjectURL === "function"){
             setTempImage(URL.createObjectURL(imageFile));
         }
-        else{
+        else if(imageValidation){
             const reader = new FileReader();
             reader.onloadend = () => {
                 setTempImage(reader.result);
@@ -63,6 +60,18 @@ const Update = () => {
             reader.readAsDataURL(imageFile);
         }
     };
+
+    const validateImage = (imageFile) => {                            //Validating only image file
+        const fileName = imageFile.name;
+        console.log(fileName);
+        var lastOccurenceOfDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(lastOccurenceOfDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            return true;
+        }
+        alert("Only image files are accepted.");
+        return false;
+    }
 
     const saveImage = () => {                                           //Storing image from the temporary state
         if(tempImage){
@@ -128,7 +137,7 @@ const Update = () => {
 
         const errors = {};
         
-        if(!/^[A-Za-z]{3,30}$/.test(personaData.name)){
+        if((!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(personaData.name)) && personaData.name.trim().length < 3 && personaData.name.trim().length > 30){
             errors.name = "Name must be atleast 3 letters and only letters.";
         }
 
@@ -214,7 +223,7 @@ const Update = () => {
         <footer>
             <div className="footerLeft">                    {/*Fixed Footer with edit buttons*/}
                 <button className="deleteFooter" onClick={() => setDeleteInput(true)}>Delete</button>
-                {deleteInput && deleteCardFunction()}
+                {deleteInput && deleteCardFunction()}       {/*Delete popup*/}
             </div>
             <div className="footerRight">
                 <button className="cancelFooter" onClick={userHomeNavigation}>Cancel</button>
