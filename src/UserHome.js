@@ -45,7 +45,7 @@ const UserHome = () => {
                         personas.map((persona, index) => (
                             <div key={index} onClick={()=>SavePersonaIndex(index)} className='userHomeCards'>
                                 <img src={persona.image}></img>
-                                <h2 style={{color:"#4aa5c7"}}>{persona.name}</h2>
+                                <h2 style={{color:"#4aa5c7"}}>{persona.name.slice(0,15)}</h2>
                                 <p style={{color:"black"}}>{persona.quote.slice(0,30)}</p>
                             </div>
                         ))
