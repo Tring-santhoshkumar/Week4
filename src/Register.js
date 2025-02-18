@@ -43,6 +43,10 @@ const Register = () => {
             error.confirmPassword = "Passwords do not match.";
         }
 
+        if(inputData.confirmPassword.trim() == ''){
+            error.confirmPassword = "Password must not be empty and Should match."
+        }
+
         setValidation(error);
         return Object.keys(error).length == 0;
     }
@@ -77,7 +81,7 @@ const Register = () => {
             {validation.email && <span>{validation.email}</span>}
             <input type='password' name='password' placeholder='Enter password' value={inputData.password}  onChange={addInput} title='Ex : Admin@123' /*required pattern='(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{5-10}'*//>
             {validation.password && <span>{validation.password}</span>}
-            <input type='password' name='confirmPassword' placeholder='Confirm password' value={inputData.confirmPassword}  onChange={addInput} required /*pattern='(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{5-10}'*//>
+            <input type='password' name='confirmPassword' placeholder='Confirm password' value={inputData.confirmPassword}  onChange={addInput} /*pattern='(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{5-10}'*//>
             {validation.confirmPassword && <span>{validation.confirmPassword}</span>}
             <button type='submit'>Register</button>
             <p>Have an account?</p><span style={{color:"#4aa5c7",cursor:'pointer'}} onClick={() => navigate('/login')}>Login</span>
