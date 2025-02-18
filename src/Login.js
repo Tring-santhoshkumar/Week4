@@ -21,10 +21,6 @@ const Login = () => {
     const validate = () => {
         
         const error = {};
-        
-        if(!/^[A-Za-z]{3,}$/.test(inputData.name)){
-            error.name = "Name must be atleast 3 letters and only alphabets";
-        }
     
         if(!/.+@tringapps\.com$/.test(inputData.email)){
             error.email = "Email must be valid tringapps.com email.";
@@ -37,10 +33,6 @@ const Login = () => {
         if(!specialCharRegex.test(inputData.password) || !numberRegex.test(inputData.password) || !capitalRegex.test(inputData.password)){
             error.password = "Password must be atleast 5 characters and atleast include a uppercase letter, a number, and a special character.";
         }
-
-        if(inputData.password !== inputData.confirmPassword){
-            error.confirmPassword = "Passwords do not match.";
-        }  
 
         setValidation(error);
         return Object.keys(error).length == 0;
