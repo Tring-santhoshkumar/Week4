@@ -13,64 +13,88 @@
 .editImagePopup{
     display: flex;
     flex-direction: column;
-    text-align: center;
-    width: 300px;
-    height: 200px;
+    width: 750px; 
+    height: 500px; 
     position: fixed;
-    top: 25%;
-    left: 40%;
-    padding: 20px;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-    border: 2px solid #4aa5c7;
-    border-radius: 5%;
+    border-radius: 10px;
     background-color: #ffffff;
+    z-index: 1000;
+    overflow-y: auto;
 }
 
 .popupContent{
-    /* text-align: center; */
-    padding: 10% 0;
+    margin-left: 40%;
+    padding: 5px;
     font-size: 20px;
     font-weight: 600;
     color: #4aa5c7;
 }
+ 
+.imagePreview{
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
 
-.editImagePopup > input{
-    padding: 0 34%;
+.imagePreview img{
+    cursor: pointer;
+    height: 373px;
+    width: 738px;
+    border-radius: 5px;
+    object-fit: cover;
 }
 
 .imageButtons{
     display: flex;
-    gap: 20px;
-    width: 100px;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-left: 32%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
 
-.imageButtons > button{
+.imageButtons button{
     border: none;
     cursor: pointer;
-    padding: 5px;
-    font-size: 20px;
+    font-size: 15px;
     border-radius: 5px;
-} 
+    padding: 10px 20px;
+}
 
 .imageSaveButton{
     color: white;
-    background-color: #4aa5c7;
+    background: #4aa5c7;
 }
 
-.imageSaveButton:hover{
-    background-color: #3ec0ef;
+.imageRemoveButton{
+    color: red;
+    background: none;
+}
+
+.imageDeleteButton{
+    color: white;
+    background: red;
 }
 
 .imageCancelButton{
-    color: red;
-    background-color: white;
+    color: #333;
+    background: none;
 }
 
-.imageCancelButton:hover{
-    background-color: rgba(218, 213, 213, 0.575);
+.imageButtons button:hover{
+    opacity: 0.7;
+}
+
+.closeButton{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .updateMain{
@@ -108,6 +132,23 @@
     background-color: #ffffff;
     height: inherit;
 }
+
+.textArea > span{
+    padding: 10px;
+}
+
+/* .ql-container {
+    border: none !important;
+    outline: none !important;
+}
+
+.ql-editor {
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #74777a;
+    background-color: #ffffff;
+    height: inherit;
+} */
 
 footer{
     padding:20px 10px;
