@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import defaultImage from './assets/defaultImage.png'
 import { useNavigate, useParams } from "react-router-dom";
 import { UserProfile } from "./UserProfile";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 // import TiptapEditor from "./TiptapEditor";
 
 const Update = () => {
 
     const navigate = useNavigate();                                     //Navigation
 
-    const url = useParams();
+    const url = useParams();                                            //setting edit or creating new
 
     const editStatus = (url.status == "create" ? false : true);
 
@@ -18,11 +20,13 @@ const Update = () => {
 
     const [image, setImage] = useState(null);                           //Storing image
 
-    const [deleteInput, setDeleteInput] = useState(false);
+    const [deleteInput, setDeleteInput] = useState(false);              //Delete popup
 
-    const [validation, setValidation] = useState({});
+    const [validation, setValidation] = useState({});                   //Validation
 
-    const {personas, addPersona, editPersonaKey, deletePersona} = useContext(UserProfile);
+    const [editorArea, setEditorArea] = useState(null);                 //RichTextEditor
+
+    const {personas, addPersona, editPersonaKey, deletePersona} = useContext(UserProfile);      //UseContext
 
     const [personaData, setPersonaData] = useState({
         name : "", quote : "", description : "", attitude : "", challenges : "", jobs : "", activities : "" , image : image || defaultImage
@@ -30,6 +34,10 @@ const Update = () => {
 
     const handleChange = (e) => {
         setPersonaData({...personaData, [e.target.name] : e.target.value});
+    }
+
+    const handleEditorChange = (name, value) => {
+        setPersonaData({...personaData, [name] : value});
     }
 
     useEffect(() => {
@@ -41,6 +49,8 @@ const Update = () => {
             }
         }
     }, [editStatus, personas, editPersonaKey]);
+
+    // console.log(personaData);
 
     const setEditImageFunction = () => {                                //Enabling the popup
         setEditImage(true);
@@ -63,7 +73,7 @@ const Update = () => {
 
     const validateImage = (imageFile) => {                            //Validating only image file
         const fileName = imageFile.name;
-        console.log(fileName);
+        // console.log(fileName);
         var lastOccurenceOfDot = fileName.lastIndexOf(".") + 1;
         var extFile = fileName.substr(lastOccurenceOfDot, fileName.length).toLowerCase();
         if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
@@ -77,22 +87,52 @@ const Update = () => {
         if(tempImage){
             setPersonaData((prev) => ({...prev, image : tempImage}));
             setImage(tempImage);
+        }
+        else{
             setTempImage(null);
+            setImage(null);
         }
         setEditImage(false);
+    }
+
+
+    const removeHtmlFunction = (value) => {
+        const content = new DOMParser().parseFromString(value, 'text/html');
+        return content.body.textContent;
     }
 
     const editImageFunction = () => {                                   //Popup for image insertion
         return(
             <div className='editImagePopup'>
-                <label className="popupContent">Upload Image:</label>
-                <input type="file" onChange={insertImage} accept="image/*"/>
+                <button className="closeButton" onClick={()=>setEditImage(false)}>X</button>
+                <label className="popupContent">Update Image</label>
+                <input type="file" id="imageFileInput" className="selectedImageFile" onChange={insertImage} accept="image/*" style={{display:'none'}}/>
+                <div className="imagePreview">
+                    <img src={tempImage || defaultImage} alt="Image preview" className="preview" onClick={() => document.getElementById('imageFileInput').click()}/>
+                </div>
                 <div className="imageButtons">
-                    <button className="imageSaveButton" onClick={saveImage}>Save</button>
-                    <button className="imageCancelButton" onClick={()=>setEditImage(false)}>Cancel</button>
+                    {tempImage && <button className="imageDeleteButton" onClick={deleteImage}>Delete</button>}
+                    <div style={{display:'flex',justifyContent:'flex-end'}}>
+                        <button className="imageSaveButton" onClick={saveImage}>Save</button>
+                        <button className="imageCancelButton" onClick={cancelImage}>Cancel</button>
+                    </div>
                 </div>
             </div>
         )
+    }
+
+    const cancelImage = () => {
+        if(tempImage == image) {}
+        else{
+            setTempImage(image);
+        }
+        setEditImage(false);
+    }
+
+    const deleteImage = () => {
+        setTempImage(null);
+        setImage(null);
+        setEditImage(false);
     }
 
     const updatePersona = () => {
@@ -137,7 +177,7 @@ const Update = () => {
 
         const errors = {};
         
-        if((!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(personaData.name)) && personaData.name.trim().length < 3 && personaData.name.trim().length > 30){
+        if((!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(personaData.name)) && (personaData.name.trim().length < 3 || personaData.name.trim().length > 30)){
             errors.name = "Name must be atleast 3 letters and only letters.";
         }
 
@@ -153,15 +193,15 @@ const Update = () => {
             errors.challenges = "Challenges is empty.";
         }
 
-        if(personaData.attitude.trim() == ""){
+        if(personaData.attitude == undefined || personaData.attitude.trim() == ""){
             errors.attitude = "Attitude / Motivations is empty.";
         }
 
-        if(personaData.jobs.trim() == ""){
+        if(personaData.jobs == undefined || personaData.jobs.trim() == ""){
             errors.jobs = "Jobs / Needs is empty.";
         }
 
-        if(personaData.activities.trim() == ""){
+        if(personaData.activities == undefined || personaData.activities.trim() == ""){
             errors.activities = "Activities is empty.";
         }
 
@@ -178,7 +218,7 @@ const Update = () => {
     <div>
          <div className="updateContainer" style={{backgroundImage: `url(${image ? image : defaultImage})`}}>  {/*Setting the image insertion in background*/}
             <div className='Content'>
-                <p className='title'>Persona</p>
+                <p className='title'>Persona Name<span style={{color:'red',background:'none'}}>*</span></p>
                 { editStatus ? <input type="text" name='name' className="personaName" onChange={handleChange} value={personaData.name} defaultValue={personaData.name}/>: 
                                 <input type="text"  name='name' className="personaName" placeholder="Sample" onChange={handleChange}/>}<br/>
                 {validation.name && <span>{validation.name}</span>}
@@ -197,6 +237,7 @@ const Update = () => {
             <div className="textArea">
                 <label htmlFor="description">Description</label>
                 <textarea id="description" name="description" onChange={handleChange} placeholder="Enter a general description/bio about the persona." defaultValue={personaData.description}/>
+                {console.log(validation.description)}
                 {validation.description && <span>{validation.description}</span>}
             </div>
             <div className="textArea">
@@ -206,17 +247,17 @@ const Update = () => {
             </div>
             <div className="textArea">
                 <label htmlFor="challenges">Pain Points</label>
-                <textarea id="challenges" name="challenges" onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?" defaultValue={personaData.challenges}/>
+                {editorArea == 'challenges' ? ( <ReactQuill id="challenges" onClick={() => setEditorArea(null)} name="challenges" onChange={(value) => handleEditorChange('challenges',value)} placeholder="What are the challenges that the persona faces in the job?" value={personaData.challenges}/>) : (<textarea id="challenges" name="challenges" onClick={() => setEditorArea('challenges')} onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?" value={removeHtmlFunction(personaData.challenges)}/>)}
                 {validation.challenges && <span>{validation.challenges}</span>}
             </div>
             <div className="textArea">
                 <label htmlFor="jobs">Jobs / Needs</label>
-                <textarea id="jobs" name="jobs" onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." defaultValue={personaData.jobs}/>
+                {editorArea == 'jobs' ? ( <ReactQuill id="jobs" name="jobs" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('jobs',value)} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={personaData.jobs}/>) : ( <textarea id="jobs" name="jobs" onClick={() => setEditorArea('jobs')} onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={removeHtmlFunction(personaData.jobs)}/>)}
                 {validation.jobs && <span>{validation.jobs}</span>}
             </div>
             <div className="textArea">
                 <label htmlFor="activities">Activities</label>
-                <textarea id="activities" name="activities" onChange={handleChange} placeholder="What does the persona do in their free time?" defaultValue={personaData.activities}/>
+                {editorArea == 'activities' ? ( <ReactQuill id="activities" name="activities" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('activities',value)} placeholder="What does the persona do in their free time?" value={personaData.activities}/>) : ( <textarea id="activities" name="activities" onClick={() => setEditorArea('activities')} onChange={handleChange} placeholder="What does the persona do in their free time?" value={removeHtmlFunction(personaData.activities)}/>)}
                 {validation.activities && <span>{validation.activities}</span>}
             </div>
         </div>
