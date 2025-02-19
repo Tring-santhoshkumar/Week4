@@ -105,7 +105,7 @@ const Update = () => {
         return(
             <div className='editImagePopup'>
                 <button className="closeButton" onClick={()=>setEditImage(false)}>X</button>
-                <label className="popupContent">Update Image</label>
+                <label className="popupContent">Update Image 👇</label>
                 <input type="file" id="imageFileInput" className="selectedImageFile" onChange={insertImage} accept="image/*" style={{display:'none'}}/>
                 <div className="imagePreview">
                     <img src={tempImage || defaultImage} alt="Image preview" className="preview" onClick={() => document.getElementById('imageFileInput').click()}/>
@@ -158,11 +158,11 @@ const Update = () => {
 
     const deleteCardFunction = () => {
         return(
-            <div className='editImagePopup'>
-                <label className="popupContent">Are you sure you want to delete?</label>
-                <div className="imageButtons">
-                    <button className="imageSaveButton" onClick={deleteCard}>Delete</button>
-                    <button className="imageCancelButton" onClick={()=>setDeleteInput(false)}>Cancel</button>
+            <div className='deleteUpdatePopup'>
+                <label className="popupContentDelete">Are you sure you want to delete?</label>
+                <div className="imageButtonsDelete">
+                    <button className="imageSaveButtonDelete" onClick={deleteCard}>Delete</button>
+                    <button className="imageCancelButtonDelete" onClick={()=>setDeleteInput(false)}>Cancel</button>
                 </div>
             </div>
         )
@@ -230,35 +230,45 @@ const Update = () => {
         </div>
         <div className="updateMain">
             <div className="textArea">                  {/*Textarea fields */}
-                <label htmlFor="quote">Notable Quote</label>
+                <label htmlFor="quote">Notable Quote<span style={{color:'red',background:'none'}}>*</span></label>
                 <textarea id="quote" name="quote" onChange={handleChange} placeholder="Enter a quote that identifies the persona." defaultValue={personaData.quote}/>
                 {validation.quote && <span>{validation.quote}</span>}
             </div>
             <div className="textArea">
-                <label htmlFor="description">Description</label>
+                <label htmlFor="description">Description<span style={{color:'red',background:'none'}}>*</span></label>
                 <textarea id="description" name="description" onChange={handleChange} placeholder="Enter a general description/bio about the persona." defaultValue={personaData.description}/>
                 {console.log(validation.description)}
                 {validation.description && <span>{validation.description}</span>}
             </div>
             <div className="textArea">
-                <label htmlFor="attitude">Attitudes / Motivations</label>
+                <label htmlFor="attitude">Attitudes / Motivations<span style={{color:'red',background:'none'}}>*</span></label>
                 <textarea id="attitude" name="attitude" onChange={handleChange} placeholder="What drives and incentives the persona to reach desired goals?What mindset does the persona have?" defaultValue={personaData.attitude}/>
                 {validation.attitude && <span>{validation.attitude}</span>}
             </div>
             <div className="textArea">
-                <label htmlFor="challenges">Pain Points</label>
-                {editorArea == 'challenges' ? ( <ReactQuill id="challenges" onClick={() => setEditorArea(null)} name="challenges" onChange={(value) => handleEditorChange('challenges',value)} placeholder="What are the challenges that the persona faces in the job?" value={personaData.challenges}/>) : (<textarea id="challenges" name="challenges" onClick={() => setEditorArea('challenges')} onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?" value={removeHtmlFunction(personaData.challenges)}/>)}
+                <label htmlFor="challenges">Pain Points<span style={{color:'red',background:'none'}}>*</span></label>
+                {editorArea == 'challenges' ? ( <ReactQuill id="challenges" onClick={() => setEditorArea(null)} name="challenges" onChange={(value) => handleEditorChange('challenges',value)} placeholder="What are the challenges that the persona faces in the job?" value={personaData.challenges}/>) : 
+                // (<textarea id="challenges" name="challenges" onClick={() => setEditorArea('challenges')} onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?" value={removeHtmlFunction(personaData.challenges)}/>
+                (<div className="textArea1" id="challenges" name="challenges" onClick={()=> setEditorArea('challenges')}  onChange={handleChange}> {personaData.challenges ? (<div dangerouslySetInnerHTML={{ __html: personaData.challenges ? personaData.challenges : ''}}/>) : 
+                (<span className="challenges"> What are the challenges that the persona faces in the job?</span>)} </div>)}
                 {validation.challenges && <span>{validation.challenges}</span>}
             </div>
             <div className="textArea">
-                <label htmlFor="jobs">Jobs / Needs</label>
-                {editorArea == 'jobs' ? ( <ReactQuill id="jobs" name="jobs" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('jobs',value)} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={personaData.jobs}/>) : ( <textarea id="jobs" name="jobs" onClick={() => setEditorArea('jobs')} onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={removeHtmlFunction(personaData.jobs)}/>)}
+                <label htmlFor="jobs">Jobs / Needs<span style={{color:'red',background:'none'}}>*</span></label>
+                {editorArea == 'jobs' ? ( <ReactQuill id="jobs" name="jobs" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('jobs',value)} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={personaData.jobs}/>) : 
+                // ( <textarea id="jobs" name="jobs" onClick={() => setEditorArea('jobs')} onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={removeHtmlFunction(personaData.jobs)}/>)
+                (<div className="textArea1" id="jobs" name="jobs" onClick={()=> setEditorArea('jobs')}  onChange={handleChange}> {personaData.jobs ? (<div dangerouslySetInnerHTML={{ __html: personaData.jobs ? personaData.jobs : ''}}/>) : 
+                (<span className="jobs">What are the persona's functional, social, and emotional needs to be successful in the job.</span>)} </div>)}
                 {validation.jobs && <span>{validation.jobs}</span>}
             </div>
             <div className="textArea">
-                <label htmlFor="activities">Activities</label>
-                {editorArea == 'activities' ? ( <ReactQuill id="activities" name="activities" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('activities',value)} placeholder="What does the persona do in their free time?" value={personaData.activities}/>) : ( <textarea id="activities" name="activities" onClick={() => setEditorArea('activities')} onChange={handleChange} placeholder="What does the persona do in their free time?" value={removeHtmlFunction(personaData.activities)}/>)}
+                <label htmlFor="activities">Activities<span style={{color:'red',background:'none'}}>*</span></label>
+                {editorArea == 'activities' ? ( <ReactQuill id="activities" name="activities" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('activities',value)} placeholder="What does the persona do in their free time?" value={personaData.activities}/>) : 
+                // ( <textarea id="activities" name="activities" onClick={() => setEditorArea('activities')} onChange={handleChange} placeholder="What does the persona do in their free time?" value={removeHtmlFunction(personaData.activities)}/>)}
+                (<div className="textArea1" id="activities" name="activities" onClick={()=> setEditorArea('activities')}  onChange={handleChange}> {personaData.activities ? (<div dangerouslySetInnerHTML={{ __html: personaData.activities ? personaData.activities : ''}}/>) : 
+                (<span className="activities">What does the persona do in their free time?</span>)} </div>)}
                 {validation.activities && <span>{validation.activities}</span>}
+                {/* {console.log(personaData)} */}
             </div>
         </div>
         <footer>
@@ -274,5 +284,4 @@ const Update = () => {
     </div>
   );
 };
-
 export default Update;
