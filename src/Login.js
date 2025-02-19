@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserProfile } from './UserProfile';
+import { toastAlert } from './Toastify';
 
 const Login = () => {
 
@@ -24,6 +25,7 @@ const Login = () => {
     
         if(!/.+@tringapps\.com$/.test(inputData.email)){
             error.email = "Email must be valid tringapps.com email.";
+            toastAlert('error',error.email);
         }
 
         const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -32,6 +34,7 @@ const Login = () => {
 
         if(!specialCharRegex.test(inputData.password) || !numberRegex.test(inputData.password) || !capitalRegex.test(inputData.password)){
             error.password = "Password must be atleast 5 characters and atleast include a uppercase letter, a number, and a special character.";
+            toastAlert('error',error.password);
         }
 
         setValidation(error);
@@ -49,21 +52,24 @@ const Login = () => {
         //     alert("Invalid Details,Please login again!");
         // }
         if((localStorage.length == 0)){
-            alert("Please first Register.");
+            toastAlert('warning',"Please first Register.");
         }
         else if(validate && localStorage.getItem(inputData.email)){
             const User = JSON.parse(localStorage.getItem(inputData.email));
             if(inputData.password === User.password){
-                alert("Login Successfull!!!");
+                toastAlert('success',"Login Successfull!!!");
                 setCurrentUserData( {name : (inputData.name), email: (inputData.email)})
                 navigate('/UserHome');
             }
             else{
-              alert("Password Wrong.");
+              toastAlert('error',"Password Wrong,enter with correct password.");
             //   console.log(User.password);
             }
         }
-      
+        else{
+            toastAlert('warning',"Please first Register.");
+            navigate('/Register');
+        }
       }
 
   return (
