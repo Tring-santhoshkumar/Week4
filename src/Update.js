@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import defaultImage from './assets/defaultImage.png'
 import { useNavigate, useParams } from "react-router-dom";
 import { UserProfile } from "./UserProfile";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { toastAlert } from "./Toastify";
 // import TiptapEditor from "./TiptapEditor";
 
 const Update = () => {
@@ -25,6 +26,8 @@ const Update = () => {
     const [validation, setValidation] = useState({});                   //Validation
 
     const [editorArea, setEditorArea] = useState(null);                 //RichTextEditor
+
+    const richTextEditorClick = useRef(null);
 
     const {personas, addPersona, editPersonaKey, deletePersona} = useContext(UserProfile);      //UseContext
 
@@ -52,6 +55,14 @@ const Update = () => {
 
     // console.log(personaData);
 
+    useEffect(() => {
+        const clickOutside = (e) => {
+            if(richTextEditorClick.current && !richTextEditorClick.current.contains(e.target)){
+                setEditorArea(null);
+            }
+        }
+    },[]);
+
     const setEditImageFunction = () => {                                //Enabling the popup
         setEditImage(true);
     }
@@ -75,11 +86,11 @@ const Update = () => {
         const fileName = imageFile.name;
         // console.log(fileName);
         var lastOccurenceOfDot = fileName.lastIndexOf(".") + 1;
-        var extFile = fileName.substr(lastOccurenceOfDot, fileName.length).toLowerCase();
-        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+        var actualFile = fileName.substr(lastOccurenceOfDot, fileName.length).toLowerCase();
+        if (actualFile=="jpg" || actualFile=="jpeg" || actualFile=="png" || actualFile=="svg" || actualFile=="gif"){
             return true;
         }
-        alert("Only image files are accepted.");
+        toastAlert("error","Only image files like JPG, JPEG, PNG, SVG, GIF.. are accepted");
         return false;
     }
 
@@ -92,14 +103,15 @@ const Update = () => {
             setTempImage(null);
             setImage(null);
         }
+        toastAlert('succes',"Image saved succesfully!");
         setEditImage(false);
     }
 
 
-    const removeHtmlFunction = (value) => {
-        const content = new DOMParser().parseFromString(value, 'text/html');
-        return content.body.textContent;
-    }
+    // const removeHtmlFunction = (value) => {
+    //     const content = new DOMParser().parseFromString(value, 'text/html');
+    //     return content.body.textContent;
+    // }
 
     const editImageFunction = () => {                                   //Popup for image insertion
         return(
@@ -113,8 +125,8 @@ const Update = () => {
                 <div className="imageButtons">
                     {tempImage && <button className="imageDeleteButton" onClick={deleteImage}>Delete</button>}
                     <div style={{display:'flex',justifyContent:'flex-end'}}>
-                        <button className="imageSaveButton" onClick={saveImage}>Save</button>
                         <button className="imageCancelButton" onClick={cancelImage}>Cancel</button>
+                        <button className="imageSaveButton" onClick={saveImage}>Save</button>
                     </div>
                 </div>
             </div>
@@ -132,28 +144,32 @@ const Update = () => {
     const deleteImage = () => {
         setTempImage(null);
         setImage(null);
+        toastAlert('info',"Image deleted.");
         setEditImage(false);
     }
 
     const updatePersona = () => {
         const validate = validationPersonData();
-        if(validate && editStatus){
-            personas[editPersonaKey].name = personaData.name;
-            personas[editPersonaKey].image = image;
-            personas[editPersonaKey].quote = personaData.quote;
-            personas[editPersonaKey].description = personaData.description;
-            personas[editPersonaKey].attitude = personaData.attitude;
-            personas[editPersonaKey].challenges = personaData.challenges;
-            personas[editPersonaKey].jobs = personaData.jobs;
-            personas[editPersonaKey].activities = personaData.activities;
-            userHomeNavigation();
-         }
-        else if(validate){
-            addPersona(personaData);
+        if(validate){
+            if(image == defaultImage){
+                toastAlert('warning',"Image will set to default image");
+            }
+            if(editStatus){
+                personas[editPersonaKey].name = personaData.name;
+                personas[editPersonaKey].image = image;
+                personas[editPersonaKey].quote = personaData.quote;
+                personas[editPersonaKey].description = personaData.description;
+                personas[editPersonaKey].attitude = personaData.attitude;
+                personas[editPersonaKey].challenges = personaData.challenges;
+                personas[editPersonaKey].jobs = personaData.jobs;
+                personas[editPersonaKey].activities = personaData.activities;
+            }
+            else{
+                addPersona(personaData);
+            }
+            toastAlert('success',"Your persona is updated!!!");
             userHomeNavigation();
         }
-
-        // userHomeNavigation();
     };
 
     const deleteCardFunction = () => {
@@ -161,8 +177,8 @@ const Update = () => {
             <div className='deleteUpdatePopup'>
                 <label className="popupContentDelete">Are you sure you want to delete?</label>
                 <div className="imageButtonsDelete">
-                    <button className="imageSaveButtonDelete" onClick={deleteCard}>Delete</button>
                     <button className="imageCancelButtonDelete" onClick={()=>setDeleteInput(false)}>Cancel</button>
+                    <button className="imageSaveButtonDelete" onClick={deleteCard}>Delete</button>
                 </div>
             </div>
         )
@@ -170,6 +186,7 @@ const Update = () => {
 
     const deleteCard = () => {
         deletePersona(editPersonaKey);
+        toastAlert('info',"Your persona is deleted successfully!");
         userHomeNavigation();
     };
 
@@ -179,6 +196,7 @@ const Update = () => {
         
         if((!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(personaData.name)) && (personaData.name.trim().length < 3 || personaData.name.trim().length > 30)){
             errors.name = "Name must be atleast 3 letters and only letters.";
+            toastAlert('error',errors.name);
         }
 
         if(personaData.quote.trim() == ""){
@@ -245,7 +263,7 @@ const Update = () => {
                 <textarea id="attitude" name="attitude" onChange={handleChange} placeholder="What drives and incentives the persona to reach desired goals?What mindset does the persona have?" defaultValue={personaData.attitude}/>
                 {validation.attitude && <span>{validation.attitude}</span>}
             </div>
-            <div className="textArea">
+            <div className="textArea" ref={richTextEditorClick}>
                 <label htmlFor="challenges">Pain Points<span style={{color:'red',background:'none'}}>*</span></label>
                 {editorArea == 'challenges' ? ( <ReactQuill id="challenges" onClick={() => setEditorArea(null)} name="challenges" onChange={(value) => handleEditorChange('challenges',value)} placeholder="What are the challenges that the persona faces in the job?" value={personaData.challenges}/>) : 
                 // (<textarea id="challenges" name="challenges" onClick={() => setEditorArea('challenges')} onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?" value={removeHtmlFunction(personaData.challenges)}/>
@@ -253,7 +271,7 @@ const Update = () => {
                 (<span className="challenges"> What are the challenges that the persona faces in the job?</span>)} </div>)}
                 {validation.challenges && <span>{validation.challenges}</span>}
             </div>
-            <div className="textArea">
+            <div className="textArea" ref={richTextEditorClick}>
                 <label htmlFor="jobs">Jobs / Needs<span style={{color:'red',background:'none'}}>*</span></label>
                 {editorArea == 'jobs' ? ( <ReactQuill id="jobs" name="jobs" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('jobs',value)} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={personaData.jobs}/>) : 
                 // ( <textarea id="jobs" name="jobs" onClick={() => setEditorArea('jobs')} onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={removeHtmlFunction(personaData.jobs)}/>)
@@ -261,7 +279,7 @@ const Update = () => {
                 (<span className="jobs">What are the persona's functional, social, and emotional needs to be successful in the job.</span>)} </div>)}
                 {validation.jobs && <span>{validation.jobs}</span>}
             </div>
-            <div className="textArea">
+            <div className="textArea" ref={richTextEditorClick}>
                 <label htmlFor="activities">Activities<span style={{color:'red',background:'none'}}>*</span></label>
                 {editorArea == 'activities' ? ( <ReactQuill id="activities" name="activities" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('activities',value)} placeholder="What does the persona do in their free time?" value={personaData.activities}/>) : 
                 // ( <textarea id="activities" name="activities" onClick={() => setEditorArea('activities')} onChange={handleChange} placeholder="What does the persona do in their free time?" value={removeHtmlFunction(personaData.activities)}/>)}
