@@ -2,19 +2,21 @@
     width:unset;
     background-color: #f3f4f5db;
     padding-top: 2%;
-    margin-left: 10px;
-}
-.userHomeMain{
     color: #4aa5c7;
     font-size: medium;
+    height: 81vh;
+    /* margin-left: 10px; */
 }
-
+.userHomeMain > h2{
+    margin-left: 42px;
+}
 .userHomeContent{
     height: 60vh;
     border: 2px solid white;
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
+    margin: 40px;
 }
 
 .userHomeContent > button{
@@ -53,8 +55,8 @@
     width: 350px;
     height: 300px;
     flex-shrink: 0;
-    background-color: #e0e1e3;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    background-color: #dddedf;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
 }
 
