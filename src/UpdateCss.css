@@ -13,8 +13,8 @@
 .editImagePopup{
     display: flex;
     flex-direction: column;
-    width: 750px; 
-    height: 500px; 
+    width: 650px; 
+    height: 400px; 
     position: fixed;
     top: 50%; 
     left: 50%; 
@@ -31,6 +31,7 @@
     padding: 5px;
     font-size: 20px;
     font-weight: 600;
+    font-family: "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
     color: #4aa5c7;
 }
  
@@ -42,8 +43,9 @@
 
 .imagePreview img{
     cursor: pointer;
-    height: 373px;
-    width: 738px;
+    height: 273px;
+    width: 538px;
+    border: 1px groove gray;
     border-radius: 5px;
     object-fit: cover;
 }
@@ -102,6 +104,7 @@
     display: grid;
     grid-template-columns: repeat(3,1fr);
     gap: 20px;
+    padding-bottom: 100px;
 }
 
 .personaName{
@@ -124,6 +127,7 @@
     background-color: #ffffff;
 }
 
+
 .textArea > textarea{
     border: none;
     outline: none;
@@ -131,24 +135,41 @@
     color: #74777a;
     background-color: #ffffff;
     height: inherit;
+    font-size: 15px;
+}
+
+.textArea > label{
+    font-weight: 700;
 }
 
 .textArea > span{
     padding: 10px;
 }
 
+.textArea1{
+    height: 250px !important;
+    overflow-y: auto;
+}
+
+.challenges,.jobs,.activities{
+    font-family: monospace;
+    letter-spacing: normal;
+    cursor: text;
+    /* word-spacing: normal;
+    line-height: normal;
+    display: inline-block;
+    text-align: start; */
+    color: #74777a;
+}
+
 /* .ql-container {
     border: none !important;
     outline: none !important;
-}
+} */
 
 .ql-editor {
-    padding: 0 !important;
-    margin: 0 !important;
-    color: #74777a;
-    background-color: #ffffff;
-    height: inherit;
-} */
+    height: 130px !important;
+}
 
 footer{
     padding:20px 10px;
@@ -191,4 +212,60 @@ footer{
     background-color: white;
     border: none;
     color: #4aa5c7;
+}
+
+.deleteUpdatePopup{
+    display: flex;
+    flex-direction: column;
+    width: 350px; 
+    height: 120px; 
+    position: fixed;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    border: 1px groove red;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    background-color: #ffffff;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.popupContentDelete{
+    text-align: center;
+    padding: 5px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    color: #4aa5c7;
+}
+
+.imageButtonsDelete{
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.imageButtonsDelete button{
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.imageSaveButtonDelete{
+    color: white;
+    background: red;
+}
+
+.imageCancelButtonDelete{
+    color: #333;
+    background: none;
+}
+
+.imageButtonsDelete button:hover{
+    opacity: 0.7;
 }
