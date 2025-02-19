@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { UserProfile } from './UserProfile';
-
+import {toastAlert} from './Toastify';
 
 const Register = () => {
   
@@ -25,10 +25,12 @@ const Register = () => {
 
         if(!/^[A-Za-z]{3,}$/.test(inputData.name)){
           error.name = "Name must be atleast 3 letters and only alphabets";
+          toastAlert('error',error.name);
         }
 
         if(!/.+@tringapps\.com$/.test(inputData.email)){
             error.email = "Email must be valid tringapps.com email.";
+            toastAlert('error',error.email);
         }
 
         const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -37,14 +39,17 @@ const Register = () => {
 
         if(!specialCharRegex.test(inputData.password) || !numberRegex.test(inputData.password) || !capitalRegex.test(inputData.password)){
             error.password = "Password must be atleast 5 characters and atleast include a uppercase letter, a number, and a special character.";
+            toastAlert('error',error.password);
         }
 
         if(inputData.password !== inputData.confirmPassword){
             error.confirmPassword = "Passwords do not match.";
+            toastAlert('error',error.confirmPassword);
         }
 
         if(inputData.confirmPassword.trim() == ''){
             error.confirmPassword = "Password must not be empty and Should match."
+            toastAlert('error',error.confirmPassword);
         }
 
         setValidation(error);
@@ -58,15 +63,15 @@ const Register = () => {
     // }                                                                 
     // localStorage.setItem("userRegister", JSON.stringify(inputData));   //Using localstorage to save the user data
     if(localStorage && localStorage.getItem(inputData.email)){
-      alert("Email Already exist");
+      toastAlert('error',"Email Already exist");
     }
     if(validate()){
       //register({name:inputData.name, email:inputData.email ,password:inputData.password, confirmPassword:inputData.confirmPassword});                                                  //Using useContext to save the user data
         const Obj = {name: inputData.name, password: inputData.password};
         localStorage.setItem(inputData.email, JSON.stringify(Obj));
         setCurrentUserData({name : (inputData.name), email : (inputData.email)})
-        alert("Registered Successfully!");
-        navigate('/');
+        toastAlert('success',"Registered Successfully!Please Login Using the details.");
+        navigate('/Login');
     }
   }
 
