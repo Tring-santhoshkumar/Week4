@@ -13,7 +13,7 @@ const UserHome = () => {
         navigate('/Update/create');
     }
 
-    const {currentUserData, personas, SetEditPersonaKey} = useContext(UserProfile);
+    const {personas, SetEditPersonaKey} = useContext(UserProfile);
 
 
     const SavePersonaIndex=(index)=>{
@@ -41,7 +41,7 @@ const UserHome = () => {
             <div className='userHomeContent'>                     {/*Add Persona fields */}
                 <button onClick={updateNavigation}>+ Add Persona</button>
                 <div className='userHomeMainContent'>
-                    {personas.length > 0 ? (
+                    {personas.length > 0 &&
                         personas.map((persona, index) => (
                             <div key={index} onClick={()=>SavePersonaIndex(index)} className='userHomeCards'>
                                 <img src={persona.image}></img>
@@ -49,11 +49,10 @@ const UserHome = () => {
                                 <p style={{color:"black"}}>{persona.quote.slice(0,30)}</p>
                             </div>
                         ))
-                    ) : (
-                        <div className='userHomeCards' onClick={() => updateNavigation()} style={{backgroundImage: `url(${defaultImage})`, backgroundSize:'cover'}}>
+                    }
+                    <div className='userHomeCards' onClick={() => updateNavigation()} style={{backgroundImage: `url(${defaultImage})`, backgroundSize:'cover'}}>
                             <div className='addingCards'>+</div>
-                        </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>
