@@ -9,6 +9,7 @@ import UserHome from './UserHome';
 import Update from './Update';
 import { UserProvider } from './UserProfile'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/userHome' element={<UserHome />} />
         <Route path='/Update/:status' element={<Update />} /> */
       </Routes>
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} newestOnTop={false} draggable pauseOnHover/>
     </BrowserRouter>
    </UserProvider>
   );
