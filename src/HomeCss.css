@@ -4,11 +4,11 @@ body{
 
 header{
   height: 105px;
-  width: 100%;
+  width: 99.8%;
   display: flex;
   border: 2px solid gray;
   background-color: #4aa5c7;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 header > img{
