@@ -25,12 +25,12 @@ const Register = () => {
 
         if(!/^[A-Za-z]{3,}$/.test(inputData.name)){
           error.name = "Name must be atleast 3 letters and only alphabets";
-          toastAlert('error',error.name);
+          // toastAlert('error',error.name);
         }
 
         if(!/.+@tringapps\.com$/.test(inputData.email)){
-            error.email = "Email must be valid tringapps.com email.";
-            toastAlert('error',error.email);
+            error.email = "Email must be a valid tringapps.com email.";
+            // toastAlert('error',error.email);
         }
 
         const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -39,17 +39,17 @@ const Register = () => {
 
         if(!specialCharRegex.test(inputData.password) || !numberRegex.test(inputData.password) || !capitalRegex.test(inputData.password)){
             error.password = "Password must be atleast 5 characters and atleast include a uppercase letter, a number, and a special character.";
-            toastAlert('error',error.password);
+            // toastAlert('error',error.password);
         }
 
         if(inputData.password !== inputData.confirmPassword){
             error.confirmPassword = "Passwords do not match.";
-            toastAlert('error',error.confirmPassword);
+            // toastAlert('error',error.confirmPassword);
         }
 
         if(inputData.confirmPassword.trim() == ''){
             error.confirmPassword = "Password must not be empty and Should match."
-            toastAlert('error',error.confirmPassword);
+            // toastAlert('error',error.confirmPassword);
         }
 
         setValidation(error);
