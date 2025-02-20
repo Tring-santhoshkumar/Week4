@@ -27,7 +27,11 @@ const Update = () => {
 
     const [editorArea, setEditorArea] = useState(null);                 //RichTextEditor
 
-    const richTextEditorClick = useRef(null);
+    const challengesEditorClick = useRef(null);
+
+    const jobsEditorClick = useRef(null);
+
+    const   activitiesEditorClick = useRef(null);
 
     const {personas, addPersona, editPersonaKey, deletePersona} = useContext(UserProfile);      //UseContext
 
@@ -57,13 +61,20 @@ const Update = () => {
 
     useEffect(() => {
         const clickOutside = (e) => {
-            if(richTextEditorClick.current && !richTextEditorClick.current.contains(e.target)){
-                setEditorArea(null);
+            if((challengesEditorClick.current && challengesEditorClick.current.contains(e.target)) || (jobsEditorClick.current && jobsEditorClick.current.contains(e.target)) || (activitiesEditorClick.current && activitiesEditorClick.current.contains(e.target))){
+                console.log("click");
+                return;
             }
+            setEditorArea(null);
         }
+        document.addEventListener("mousedown",clickOutside);
+        return () => document.removeEventListener("mousedown",clickOutside); 
     },[]);
 
-    const setEditImageFunction = () => {                                //Enabling the popup
+    const setEditImageFunction = () => {    
+        if(image){
+            setTempImage(image);
+        }                            //Enabling the popup
         setEditImage(true);
     }
 
@@ -103,7 +114,6 @@ const Update = () => {
             setTempImage(null);
             setImage(null);
         }
-        toastAlert('succes',"Image saved succesfully!");
         setEditImage(false);
     }
 
@@ -142,21 +152,27 @@ const Update = () => {
     }
 
     const deleteImage = () => {
-        setTempImage(null);
+        if(image != null){
+            toastAlert('info',"Image deleted.");
+        }
         setImage(null);
-        toastAlert('info',"Image deleted.");
+        setTempImage(null);
+        setPersonaData((prev) => ({...prev, image:null}));
         setEditImage(false);
     }
 
     const updatePersona = () => {
         const validate = validationPersonData();
         if(validate){
-            if(image == defaultImage){
-                toastAlert('warning',"Image will set to default image");
-            }
             if(editStatus){
+                if(image == null || image == defaultImage){
+                    toastAlert('warning',"Image will set to default image");
+                    personas[editPersonaKey].image = defaultImage;
+                }
+                else{
+                    personas[editPersonaKey].image = image;
+                }
                 personas[editPersonaKey].name = personaData.name;
-                personas[editPersonaKey].image = image;
                 personas[editPersonaKey].quote = personaData.quote;
                 personas[editPersonaKey].description = personaData.description;
                 personas[editPersonaKey].attitude = personaData.attitude;
@@ -165,6 +181,10 @@ const Update = () => {
                 personas[editPersonaKey].activities = personaData.activities;
             }
             else{
+                if(image == null){
+                    toastAlert('warning',"Image will set to default image");
+                    personaData.image = defaultImage;
+                }
                 addPersona(personaData);
             }
             toastAlert('success',"Your persona is updated!!!");
@@ -263,15 +283,15 @@ const Update = () => {
                 <textarea id="attitude" name="attitude" onChange={handleChange} placeholder="What drives and incentives the persona to reach desired goals?What mindset does the persona have?" defaultValue={personaData.attitude}/>
                 {validation.attitude && <span>{validation.attitude}</span>}
             </div>
-            <div className="textArea" ref={richTextEditorClick}>
+            <div className="textArea" ref={challengesEditorClick}>
                 <label htmlFor="challenges">Pain Points<span style={{color:'red',background:'none'}}>*</span></label>
-                {editorArea == 'challenges' ? ( <ReactQuill id="challenges" onClick={() => setEditorArea(null)} name="challenges" onChange={(value) => handleEditorChange('challenges',value)} placeholder="What are the challenges that the persona faces in the job?" value={personaData.challenges}/>) : 
+                {editorArea == 'challenges' ? ( <ReactQuill id="challenges" name="challenges" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('challenges',value)} placeholder="What are the challenges that the persona faces in the job?" value={personaData.challenges}/>) : 
                 // (<textarea id="challenges" name="challenges" onClick={() => setEditorArea('challenges')} onChange={handleChange} placeholder="What are the challenges that the persona faces in the job?" value={removeHtmlFunction(personaData.challenges)}/>
                 (<div className="textArea1" id="challenges" name="challenges" onClick={()=> setEditorArea('challenges')}  onChange={handleChange}> {personaData.challenges ? (<div dangerouslySetInnerHTML={{ __html: personaData.challenges ? personaData.challenges : ''}}/>) : 
                 (<span className="challenges"> What are the challenges that the persona faces in the job?</span>)} </div>)}
                 {validation.challenges && <span>{validation.challenges}</span>}
             </div>
-            <div className="textArea" ref={richTextEditorClick}>
+            <div className="textArea" ref={jobsEditorClick}>
                 <label htmlFor="jobs">Jobs / Needs<span style={{color:'red',background:'none'}}>*</span></label>
                 {editorArea == 'jobs' ? ( <ReactQuill id="jobs" name="jobs" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('jobs',value)} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={personaData.jobs}/>) : 
                 // ( <textarea id="jobs" name="jobs" onClick={() => setEditorArea('jobs')} onChange={handleChange} placeholder="What are the persona's functional, social, and emotional needs to be successful in the job." value={removeHtmlFunction(personaData.jobs)}/>)
@@ -279,7 +299,7 @@ const Update = () => {
                 (<span className="jobs">What are the persona's functional, social, and emotional needs to be successful in the job.</span>)} </div>)}
                 {validation.jobs && <span>{validation.jobs}</span>}
             </div>
-            <div className="textArea" ref={richTextEditorClick}>
+            <div className="textArea" ref={activitiesEditorClick}>
                 <label htmlFor="activities">Activities<span style={{color:'red',background:'none'}}>*</span></label>
                 {editorArea == 'activities' ? ( <ReactQuill id="activities" name="activities" onClick={() => setEditorArea(null)} onChange={(value) => handleEditorChange('activities',value)} placeholder="What does the persona do in their free time?" value={personaData.activities}/>) : 
                 // ( <textarea id="activities" name="activities" onClick={() => setEditorArea('activities')} onChange={handleChange} placeholder="What does the persona do in their free time?" value={removeHtmlFunction(personaData.activities)}/>)}
