@@ -148,18 +148,18 @@
 
 .textArea1{
     height: 250px !important;
-    overflow-y: auto;
+    max-width: 500px !important;
+    overflow-y: auto !important;
 }
 
 .challenges,.jobs,.activities{
+    max-width: 400px !important;
     font-family: monospace;
-    letter-spacing: normal;
     cursor: text;
-    /* word-spacing: normal;
-    line-height: normal;
-    display: inline-block;
-    text-align: start; */
+    text-align: start;
     color: #74777a;
+    font-size: 15px;
+    font-weight: 200;
 }
 
 /* .ql-container {
