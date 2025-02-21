@@ -18,8 +18,8 @@ const Home = () => {
         <header className="App-header">                     {/*Header */}
           <img src={logo} alt="tringapps logo"/>
           <div className="signButtons">
+            {/* <button onClick={loginNavigation}>Log In</button> */}
             <button onClick={registerNavigation}>Register</button>
-            <button onClick={loginNavigation}>Log In</button>
           </div>
         </header>
       </div>
