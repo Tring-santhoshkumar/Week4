@@ -118,6 +118,9 @@
 }
 
 .textArea{
+    max-width: 450px;
+    max-height: 250px;
+    overflow-y: auto;
     display: flex;
     color: #74777a;
     gap: 10px;
@@ -129,6 +132,9 @@
 
 
 .textArea > textarea{
+    max-width: 450px;
+    max-height: 250px;
+    overflow-y: auto;
     border: none;
     outline: none;
     resize: none;
@@ -153,7 +159,9 @@
 }
 
 .challenges,.jobs,.activities{
+    height: 250px !important;
     max-width: 400px !important;
+    overflow-y: auto !important;
     font-family: monospace;
     cursor: text;
     text-align: start;
