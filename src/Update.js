@@ -107,6 +107,10 @@ const Update = () => {
 
     const saveImage = () => {                                           //Storing image from the temporary state
         if(tempImage){
+            if(!image && tempImage == defaultImage){
+                toastAlert('error',"Upload image.");
+                return;
+            }
             setPersonaData((prev) => ({...prev, image : tempImage}));
             setImage(tempImage);
         }
@@ -133,7 +137,7 @@ const Update = () => {
                     <img src={tempImage || defaultImage} alt="Image preview" className="preview" onClick={() => document.getElementById('imageFileInput').click()}/>
                 </div>
                 <div className="imageButtons">
-                    {tempImage && <button className="imageDeleteButton" onClick={deleteImage}>Delete</button>}
+                    {image && <button className="imageDeleteButton" onClick={deleteImage}>Delete</button>}
                     <div style={{display:'flex',justifyContent:'flex-end'}}>
                         <button className="imageCancelButton" onClick={cancelImage}>Cancel</button>
                         <button className="imageSaveButton" onClick={saveImage}>Save</button>
