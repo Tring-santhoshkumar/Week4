@@ -16,13 +16,13 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <Routes>
-        <Route path='/' element={<Home />} />
+        <Route index element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/userHome' element={<UserHome />} />
         <Route path='/Update/:status' element={<Update />} /> */
       </Routes>
-      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} newestOnTop={false} draggable pauseOnHover/>
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} draggable pauseOnHover/>
     </BrowserRouter>
    </UserProvider>
   );
