@@ -4,6 +4,8 @@ import { UserProfile } from './UserProfile';
 // import image from './Update';
 import defaultImage from './Update'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import { toastAlert } from './Toastify';
 
 const UserHome = () => {
 
@@ -22,6 +24,7 @@ const UserHome = () => {
     }
 
     const logoutFunction = () => {
+        toastAlert('info',"Logout succesfull.");
         navigate("/");
       };
 
