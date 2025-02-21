@@ -59,6 +59,20 @@ span{
     color: red;
     background-color: white;
     border-radius: 5px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 400;
 }
-  
+
+.passwordContainer{
+    position: relative;
+}
+
+.eyeButton{
+    position: absolute;
+    right: 10px;
+    top: 17px;
+    background:none;
+    color: rgb(130, 129, 129);
+}
+
+
