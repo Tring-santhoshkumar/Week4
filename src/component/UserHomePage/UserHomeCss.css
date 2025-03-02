@@ -1,0 +1,78 @@
+.userHomeMain{
+    width:unset;
+    background-color: #f3f4f5db;
+    padding-top: 2%;
+    color: #4aa5c7;
+    font-size: medium;
+    height: 81vh;
+    /* margin-left: 10px; */
+}
+.userHomeMain > h2{
+    margin-left: 42px;
+}
+.userHomeContent{
+    height: 60vh;
+    border: 2px solid white;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    margin: 40px;
+}
+
+.userHomeContent > button{
+    margin-left: 90%;
+    margin-top: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    color: #4aa5c7;
+    background-color: white;
+}
+
+.userHomeMainContent{
+    cursor: pointer;
+    height: 50vh;
+    border: 2px solid white;
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding-left: 30px;
+    overflow-x: scroll;
+}
+
+.userHomeMainContent::-webkit-scrollbar{
+    display: none;
+}
+
+.userHomeCards{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: 300px;
+    flex-shrink: 0;
+    background-color: #dddedf;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.userHomeCards > img{
+    width: 80%;
+    border-radius: 5px;
+    height: 50%;
+}
+
+
+.addingCards{
+    font-size: 42px;
+    text-align: center;
+    border-radius: 50%;
+    color: #8a8a8e;
+    border: 2px solid #c4c5c6;
+    width: 60px;
+    height: 64px;
+}

@@ -1,0 +1,36 @@
+body{
+  background-color: white;
+}
+
+header{
+  height: 90px;
+  width: 99.8%;
+  display: flex;
+  border: 2px solid gray;
+  background-color: #4aa5c7;
+  /* border-radius: 10px; */
+}
+
+header > img{
+  padding: 20px;
+  height: 40px;
+  width: 200px;
+}
+
+.signButtons{
+  margin-left: 75%;
+  margin-top: 20px;
+}
+
+.signButtons > button{
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.signButtons > button:hover{
+  background-color: white;
+}
